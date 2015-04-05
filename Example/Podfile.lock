@@ -5,7 +5,7 @@ PODS:
     - FBSnapshotTestCase (= 1.6)
   - FBSnapshotTestCase (1.6)
   - RMPZoomTransitionAnimator (1.0.0)
-  - Specta (0.4.0)
+  - Specta (0.5.0)
 
 DEPENDENCIES:
   - Expecta
@@ -23,6 +23,6 @@ SPEC CHECKSUMS:
   Expecta+Snapshots: 40c5ec43b43da3bae957f14fed5dc9177d08ec8b
   FBSnapshotTestCase: 9d5fe43b29ae3a0ed8fc829477971b281038f748
   RMPZoomTransitionAnimator: 923815ccd7f154007430cba324393bda861ef3d0
-  Specta: a353759f073ffcc0a365b782fe4aaeac064c03c6
+  Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
 
 COCOAPODS: 0.35.0

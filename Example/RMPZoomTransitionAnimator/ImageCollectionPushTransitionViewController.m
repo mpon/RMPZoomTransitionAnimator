@@ -21,7 +21,25 @@
 #import "ImageCollectionPushTransitionViewController.h"
 #import "ImageCollectionViewCell.h"
 
+@interface ImageCollectionPushTransitionViewController ()<UINavigationControllerDelegate>
+
+@end
+
 @implementation ImageCollectionPushTransitionViewController
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.delegate = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.navigationController.delegate) {
+        self.navigationController.delegate = nil;
+    }
+}
 
 #pragma mark <RMPZoomTransitionAnimating>
 
@@ -48,6 +66,26 @@
     ImageCollectionViewCell *cell = (ImageCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:selectedIndexPath];
     CGRect cellFrameInSuperview = [cell.imageView convertRect:cell.imageView.frame toView:self.collectionView.superview];
     return cellFrameInSuperview;
+}
+
+#pragma mark - <UINavigationControllerDelegate>
+
+- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                   animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                fromViewController:(UIViewController *)fromVC
+                                                  toViewController:(UIViewController *)toVC
+{
+    id <RMPZoomTransitionAnimating> sourceTransition = (id<RMPZoomTransitionAnimating>)fromVC;
+    id <RMPZoomTransitionAnimating> destinationTransition = (id<RMPZoomTransitionAnimating>)toVC;
+    if ([sourceTransition conformsToProtocol:@protocol(RMPZoomTransitionAnimating)] &&
+        [destinationTransition conformsToProtocol:@protocol(RMPZoomTransitionAnimating)]) {
+        RMPZoomTransitionAnimator *animator = [[RMPZoomTransitionAnimator alloc] init];
+        animator.goingForward = (operation == UINavigationControllerOperationPush);
+        animator.sourceTransition = sourceTransition;
+        animator.destinationTransition = destinationTransition;
+        return animator;
+    }
+    return nil;
 }
 
 @end
